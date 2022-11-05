@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home_body/Party/party_detail_nonwriterview.dart';
+import 'package:home_body/Party/party_detail_writerview.dart';
+import 'package:home_body/Party/party_writeview.dart';
 import 'package:home_body/color.dart';
 
 import '../dummy/party_dummydata.dart';
@@ -14,6 +17,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
   //data
   String currentLocation="total";
   late PartyDummydata partydummydata;
+  int isChecked = 0;
 
   final Map<String,String> locationTypeToString={
     "total": "전체",
@@ -106,11 +110,27 @@ class _PartyMainPageState extends State<PartyMainPage> {
   _makeDataList(List<Map<String,String>> datas){
     return ListView.separated(
       itemBuilder: (BuildContext _context, int index){
-        return Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
+        return GestureDetector(
+          onTap: (){
+            if(isChecked == 1){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PartyDetailNonWriterPage()),
+              );
+            }
+            else{
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PartyDetailWriterPage()),
+              );
+            }
+
+          },
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -150,8 +170,8 @@ class _PartyMainPageState extends State<PartyMainPage> {
                       ),
                     ],
                   ),
-              ),
-              Container(
+                ),
+                Container(
                   child: Text(
                     datas[index]["writer"]!,
                     textAlign: TextAlign.left,
@@ -161,66 +181,67 @@ class _PartyMainPageState extends State<PartyMainPage> {
                       color: Color(graytextcolor),
                     ),
                   ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right:20),
-                      child: Text(
-                        "OTT",
-                        textAlign: TextAlign.left,
-                        style:TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Color(mainColor),
-                        ),
-                      ),
-                    ),
-                    Text(datas[index]["ott"]!),
-                  ],
-                )
-              ),
-              Container(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right:15),
-                        child: Text(
-                          "사용기간",
-                          textAlign: TextAlign.left,
-                          style:TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(mainColor),
+                ),
+                Container(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right:20),
+                          child: Text(
+                            "OTT",
+                            textAlign: TextAlign.left,
+                            style:TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Color(mainColor),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(datas[index]["period"]!),
-                    ],
-                  )
-              ),
-              Container(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom:10,right:15),
-                        child: Text(
-                          "예상가격",
-                          textAlign: TextAlign.left,
-                          style:TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(mainColor),
+                        Text(datas[index]["ott"]!),
+                      ],
+                    )
+                ),
+                Container(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right:15),
+                          child: Text(
+                            "사용기간",
+                            textAlign: TextAlign.left,
+                            style:TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Color(mainColor),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(datas[index]["price"]!),
-                    ],
-                  )
-              ),
-            ],
-          ),
+                        Text(datas[index]["period"]!),
+                      ],
+                    )
+                ),
+                Container(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom:10,right:15),
+                          child: Text(
+                            "예상가격",
+                            textAlign: TextAlign.left,
+                            style:TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Color(mainColor),
+                            ),
+                          ),
+                        ),
+                        Text(datas[index]["price"]!),
+                      ],
+                    )
+                ),
+              ],
+            ),
+          )
         );
       },
       itemCount: 10,
@@ -233,7 +254,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
   Widget _bodyWidget() {
     return Container(
       padding: const EdgeInsets.only(left: 10,top: 30,right:10),
-      height: MediaQuery.of(context).size.height *0.75,
+      height: MediaQuery.of(context).size.height *0.7,
       width: MediaQuery.of(context).size.width,
 
       child: FutureBuilder(
@@ -267,7 +288,12 @@ class _PartyMainPageState extends State<PartyMainPage> {
           ],
         ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PartyWritePage()),
+          );
+        },
         elevation: 0,
         backgroundColor: Color(mainColor),
         child: Icon(Icons.add,color: Colors.white,),

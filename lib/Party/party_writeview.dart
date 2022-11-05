@@ -77,6 +77,15 @@ class _PartyWritePageState extends State<PartyWritePage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("파티모집글쓰기", style: TextStyle(color: Color(mainColor))),
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+              icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xff333333),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+          }),
           backgroundColor: Colors.white,
         ),
         body: SafeArea(
