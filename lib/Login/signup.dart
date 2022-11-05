@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import '../color.dart';
 import 'login.dart';
@@ -13,18 +11,6 @@ class SignUpPage extends StatefulWidget {
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
-}
-
-class emailCheck {
-  late final Bool data;
-
-  emailCheck({required this.data});
-
-  factory emailCheck.fromJson(Map<dynamic, dynamic> json) {
-    return emailCheck(
-      data: json['data'] as Bool,
-    );
-  }
 }
 
 class _SignUpPageState extends State<SignUpPage> {
