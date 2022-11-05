@@ -177,17 +177,6 @@ class _SignUpPageState extends State<SignUpPage> {
             body: SingleChildScrollView(
                 child: new Container(
                   decoration: BoxDecoration(
-                    // color: Color(0xffffffff)
-                    // gradient: LinearGradient(
-                    //   begin: Alignment.bottomCenter,
-                    //   end: Alignment.topCenter,
-                    //   colors: [
-                    //     Color(0xffF3F4F6),
-                    //     Color(0xffEFF4FA),
-                    //     Color(0xffECF4FE),
-                    //   ],
-                    //   stops: [0.3, 0.7, 0.9, ],
-                    // ),
                   ),
                   child: Container(
                       margin: EdgeInsets.only(
