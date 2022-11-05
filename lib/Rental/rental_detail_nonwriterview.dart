@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../color.dart';
 
-class PartyDetailNonWriterPage extends StatefulWidget {
-  const PartyDetailNonWriterPage({Key? key}) : super(key: key);
+class RentalDetailNonWriterPage extends StatefulWidget {
+  const RentalDetailNonWriterPage({Key? key}) : super(key: key);
 
   @override
-  State<PartyDetailNonWriterPage> createState() => _PartyDetailNonWriterPageState();
+  State<RentalDetailNonWriterPage> createState() => _RentalDetailNonWriterPageState();
 }
 
-class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
+class _RentalDetailNonWriterPageState extends State<RentalDetailNonWriterPage> {
 
   final List <bool> isEnabled = <bool>[true, true, true, true, true, true, true, true];
 
@@ -21,7 +21,7 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
   String startDate = "2022-11-05";
   String endDate = "2022-12-31";
   String price = "4,250";
-  int maxPeople = 3;
+  int maxPeople = 2;
   int curPeople = 1;
 
   void disableElevatedButton(int index) {
@@ -32,6 +32,7 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
     });
 
     if(curPeople == maxPeople){
+      Navigator.pop(context);
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -41,29 +42,22 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
               },
               child: const Text('확인'),
             ),
           ],
         ),
       );
+
     }
   }
-
-  // func(int index){
-  //   print("clicked");
-  //   disableElevatedButton(index);
-  // }
-
-
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("파티모집",
+        title: Text("대여",
             style:TextStyle(
                 color:Color(mainColor),
                 fontWeight: FontWeight.bold,
@@ -121,30 +115,7 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
                                       ),
                                     ),
 
-                                    Container(
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                                "${curPeople}/${maxPeople}",
-                                                style:TextStyle(
-                                                  fontSize: 10,
-                                                  color:Color(0xff666666),
-                                                )
-                                            ),
-                                          ),
-
-                                          Container(
-                                            child: Icon(
-                                              Icons.circle,
-                                              size: 9,
-                                              color: curPeople == maxPeople? Colors.red : Colors.green,
-                                            ),
-                                          )
-
-                                        ],
-                                      ),
-                                    )
+                                    Spacer(),
                                   ],
                                 ),
 
@@ -269,7 +240,6 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
                       ),
                     ),
                     onPressed: () => {
-
                       Navigator.pop(context)
                     },
                   ),
