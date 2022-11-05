@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_body/Login/signup.dart';
+import 'package:home_body/color.dart';
 
 import '../tabbar.dart';
 
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: new TextStyle(
                               fontSize: 32.0,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff4478FF)),
+                              color: Color(mainColor)),
                         ),
                       ),
 
@@ -129,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         child: new ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff4478FF),
+                            backgroundColor: Color(mainColor),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -152,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                             left: 0.0, top: 10.0, right: 0.0, bottom: 0.0),
                         child: new ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff4478FF),
+                            backgroundColor: Color(mainColor),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import '../color.dart';
 import 'login.dart';
 
 // import 'package:http/http.dart' as http;
@@ -190,7 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
             body: SingleChildScrollView(
                 child: new Container(
                   decoration: BoxDecoration(
-                    color: Color(0xffffffff)
+                    // color: Color(0xffffffff)
                     // gradient: LinearGradient(
                     //   begin: Alignment.bottomCenter,
                     //   end: Alignment.topCenter,
@@ -218,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   style: new TextStyle(
                                       fontSize: 32.0,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xff4478FF)),
+                                      color: Color(mainColor)),
                                 ),
                               ),
                             ),
@@ -360,7 +361,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
                               child: new ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xff4478FF),
+                                  backgroundColor: Color(mainColor),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -395,7 +396,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     child: Text(
                                       '로그인',
                                       style: TextStyle(
-                                        color: Color(0xff4478FF),
+                                        color: Color(mainColor),
                                       ),
                                     ),
                                   )
