@@ -34,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
 
       // 임시 이동
       Navigator.pop(context);
-
       Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => tabBarMainPage()),

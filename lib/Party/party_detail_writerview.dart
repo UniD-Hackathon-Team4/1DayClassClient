@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../color.dart';
 
-class PartyMainPage extends StatefulWidget {
-  const PartyMainPage({Key? key}) : super(key: key);
+class PartyDetailWriterPage extends StatefulWidget {
+  const PartyDetailWriterPage({Key? key}) : super(key: key);
 
   @override
-  State<PartyMainPage> createState() => _PartyMainPageState();
+  State<PartyDetailWriterPage> createState() => _PartyDetailWriterPageState();
 }
 
-class _PartyMainPageState extends State<PartyMainPage> {
+class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
 
   final List <bool> isEnabled = <bool>[true, true, true, true, true, true, true, true];
 
@@ -22,7 +22,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
   String endDate = "2022-12-31";
   String price = "4,250";
   int maxPeople = 3;
-  int curPeople = 0;
+  int curPeople = 1;
 
   void disableElevatedButton(int index) {
      //isEnabled[index] = false;
