@@ -1,10 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:home_body/Party/party_detail_nonwriterview.dart';
 import 'package:home_body/Party/party_detail_writerview.dart';
 import 'package:home_body/Party/party_writeview.dart';
 import 'package:home_body/color.dart';
 
+import '../Login/login.dart';
 import '../dummy/party_dummydata.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../server.dart';
+
 
 class PartyMainPage extends StatefulWidget {
   const PartyMainPage({Key? key}) : super(key: key);
@@ -13,11 +22,97 @@ class PartyMainPage extends StatefulWidget {
   State<PartyMainPage> createState() => _PartyMainPageState();
 }
 
+final partyList = new List<PartyList>.empty(growable: true);
+
+fetchPost() async {
+  var url = Uri.parse('${serverHttp}/party/gather');
+
+  print("authToken: ${authToken}");
+  var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+  print(url);
+
+  print("status: ${response.statusCode}");
+
+  if (response.statusCode == 200) {
+    // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
+
+    var body = jsonDecode(response.body);
+
+    dynamic data = body["parties"];
+
+    print(data);
+
+    if(data.length != 0){
+      for(dynamic i in data){
+        int partyId = i['partyId'];
+        String authorName = i['authorName'];
+        String title = i['title'];
+        String startDate = i['startDate'];
+        String endDate = i['endDate'];
+        int numOfPeople = i['numOfPeople'];
+        int joinedPeopleCount = i['joinedPeopleCount'];
+        String type = i['type'];
+        int cost = i['cost'];
+        String ott = i['ott'];
+        bool isOwner = i['isOwner'];
+
+        partyList.add(PartyList(partyId, authorName, title, startDate, endDate, numOfPeople, joinedPeopleCount, type, cost, ott, isOwner));
+      }
+
+      print(partyList[0].partyId);
+    }
+
+
+
+
+
+    print("here");
+  } else {
+    // 만약 요청이 실패하면, 에러를 던집니다.
+    throw Exception('Failed to load post');
+  }
+}
+
+class Post {
+  final int partyId;
+  final String authorName;
+  final String title;
+  final String startDate;
+  final String endDate;
+  final int numOfPeople;
+  final int joinedPeopleCount;
+  final String type;
+  final int cost;
+  final String ott;
+  final bool isOwner;
+
+  Post({required this.partyId, required this.authorName, required this.title, required this.startDate, required this.endDate, required this.numOfPeople, required this.joinedPeopleCount, required this.type, required this.cost, required this.ott, required this.isOwner});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      partyId: json['userId'],
+      authorName: json['id'],
+      title: json['title'],
+      startDate: json['body'],
+      endDate: json['endDate'],
+      numOfPeople: json['numOfPeople'],
+      joinedPeopleCount: json['joinedPeopleCount'],
+      type: json['type'],
+      cost: json['cost'],
+      ott: json['ott'],
+      isOwner: json['isOwner'],
+    );
+  }
+}
+
 class _PartyMainPageState extends State<PartyMainPage> {
   //data
   String currentLocation="total";
   late PartyDummydata partydummydata;
   int isChecked = 0;
+
+  late Future<Post> post;
 
   final Map<String,String> locationTypeToString={
     "total": "전체",
@@ -28,12 +123,14 @@ class _PartyMainPageState extends State<PartyMainPage> {
     "appletv":"애플티비",
     "tving":"티빙",
   };
-  
+
+
   //data 초기화
   @override
   void initState(){
     super.initState();
     partydummydata=PartyDummydata();
+    fetchPost();
   }
 
   //상단 appbar 위젯
