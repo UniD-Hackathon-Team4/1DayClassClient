@@ -70,6 +70,15 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
                 fontSize: 20
             )
         ),
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xff333333),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         backgroundColor: Colors.white,
       ),
 

@@ -32,6 +32,7 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
     });
 
     if(curPeople == maxPeople){
+      Navigator.pop(context);
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -41,13 +42,13 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
               },
               child: const Text('확인'),
             ),
           ],
         ),
       );
+
     }
   }
 
@@ -155,6 +156,15 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
               fontSize: 20
             )
         ),
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xff333333),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         backgroundColor: Colors.white,
       ),
 
