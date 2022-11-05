@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home_body/Add/add_mainview.dart';
-import 'package:home_body/Compare/compare_mainview.dart';
 import 'package:home_body/Home/home_mainview.dart';
 
-//import 'MyPage/mypage_mainview.dart';
-
+import 'Party/party_mainview.dart';
+import 'Rental/rental_mainview.dart';
 
 class tabBarMainPage extends StatelessWidget {
   @override
@@ -53,10 +51,8 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
 
   List<Widget> _widgetOptions = [
     HomeMainPage(),
-    CompareMainPage(),
-    AddMainPage()
-    //customMainPageView(),
-    //MyPage(),
+    PartyMainPage(),
+    RentalMainPage()
   ];
 
   @override
@@ -79,14 +75,14 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
               Tab(
                 icon: _seletedIndex == 1 ? Icon(Icons.add_box_rounded, color: Color(0xff4478FF)) : Icon(Icons.add_box_outlined, color: Color(0xff4478FF)),
                 child: Text(
-                  '비교하기',
+                  '파티 모집',
                   style: TextStyle(color: Color(0xff4478FF), fontSize: 11),
                 ),
               ),
               Tab(
                 icon: _seletedIndex == 2? Icon(Icons.home_filled, color: Color(0xff4478FF),) : Icon(Icons.home_outlined, color: Color(0xff4478FF)),
                 child: Text(
-                  '모집하기',
+                  '대여하기',
                   style: TextStyle(color: Color(0xff4478FF), fontSize: 11),
                 ),
               ),
