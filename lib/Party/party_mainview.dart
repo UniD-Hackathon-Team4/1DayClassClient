@@ -112,9 +112,10 @@ class _PartyMainPageState extends State<PartyMainPage> {
             children: [
               Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top:10,right:175),
+                        padding: const EdgeInsets.only(top:10),
                         child: Text(
                           datas[index]["title"]!,
                           textAlign: TextAlign.left,
@@ -124,7 +125,29 @@ class _PartyMainPageState extends State<PartyMainPage> {
                           ),
                         ),
                       ),
-                      Text(datas[index]["counts"]!),
+                      Container(
+                        child: Row(
+                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              child: Text(
+                                "${datas[index]["curPeople"]!}/${datas[index]["maxPeople"]!}",
+                                style:TextStyle(
+                                  fontSize: 10,
+                                  color:Color(0xff666666),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: Icon(
+                                Icons.circle,
+                                size: 9,
+                                color: datas[index]["curPeople"]! == datas[index]["maxPeople"]!? Colors.red : Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
               ),
@@ -228,107 +251,6 @@ class _PartyMainPageState extends State<PartyMainPage> {
             return Center(child: Text("해당 지역에 데이터 없습니다."));
           }
       ),
-      // child: ListView.separated(
-      //   itemBuilder: (BuildContext _context, int index){
-      //     return Container(
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           Container(
-      //               child: Row(
-      //                 children: [
-      //                   Padding(
-      //                     padding: const EdgeInsets.only(top:10,right:175),
-      //                     child: Text(
-      //                       datas[index]["title"]!,
-      //                       textAlign: TextAlign.left,
-      //                       style:TextStyle(
-      //                         fontSize: 15,
-      //                         fontWeight: FontWeight.bold,
-      //                       ),
-      //                     ),
-      //                   ),
-      //                   Text(datas[index]["counts"]!),
-      //                 ],
-      //               ),
-      //           ),
-      //           Container(
-      //               child: Text(
-      //                 datas[index]["writer"]!,
-      //                 textAlign: TextAlign.left,
-      //                 style:TextStyle(
-      //                   fontSize: 10,
-      //                   fontWeight: FontWeight.bold,
-      //                   color: Color(graytextcolor),
-      //                 ),
-      //               ),
-      //           ),
-      //           Container(
-      //             child: Row(
-      //               children: [
-      //                 Padding(
-      //                   padding: const EdgeInsets.only(right:20),
-      //                   child: Text(
-      //                     "OTT",
-      //                     textAlign: TextAlign.left,
-      //                     style:TextStyle(
-      //                       fontSize: 10,
-      //                       fontWeight: FontWeight.bold,
-      //                       color: Color(mainColor),
-      //                     ),
-      //                   ),
-      //                 ),
-      //                 Text(datas[index]["ott"]!),
-      //               ],
-      //             )
-      //           ),
-      //           Container(
-      //               child: Row(
-      //                 children: [
-      //                   Padding(
-      //                     padding: const EdgeInsets.only(right:15),
-      //                     child: Text(
-      //                       "사용기간",
-      //                       textAlign: TextAlign.left,
-      //                       style:TextStyle(
-      //                         fontSize: 10,
-      //                         fontWeight: FontWeight.bold,
-      //                         color: Color(mainColor),
-      //                       ),
-      //                     ),
-      //                   ),
-      //                   Text(datas[index]["period"]!),
-      //                 ],
-      //               )
-      //           ),
-      //           Container(
-      //               child: Row(
-      //                 children: [
-      //                   Padding(
-      //                     padding: const EdgeInsets.only(bottom:10,right:15),
-      //                     child: Text(
-      //                       "예상가격",
-      //                       textAlign: TextAlign.left,
-      //                       style:TextStyle(
-      //                         fontSize: 10,
-      //                         fontWeight: FontWeight.bold,
-      //                         color: Color(mainColor),
-      //                       ),
-      //                     ),
-      //                   ),
-      //                   Text(datas[index]["price"]!),
-      //                 ],
-      //               )
-      //           ),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      //   itemCount: 10,
-      //   separatorBuilder: (BuildContext _context, int index){
-      //     return Container(height: 1, color: Color(mainColor));
-      //   },
-      // ),
     );
   }
 
@@ -344,6 +266,12 @@ class _PartyMainPageState extends State<PartyMainPage> {
             _bodyWidget(), //전체 content 목록
           ],
         ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        elevation: 0,
+        backgroundColor: Color(mainColor),
+        child: Icon(Icons.add,color: Colors.white,),
+      ),
     );
 
   }
