@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../color.dart';
 
-class PartyDetailWriterPage extends StatefulWidget {
-  const PartyDetailWriterPage({Key? key}) : super(key: key);
+class RentalDetailWriterPage extends StatefulWidget {
+  const RentalDetailWriterPage({Key? key}) : super(key: key);
 
   @override
-  State<PartyDetailWriterPage> createState() => _PartyDetailWriterPageState();
+  State<RentalDetailWriterPage> createState() => _RentalDetailWriterPageState();
 }
 
-class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
+class _RentalDetailWriterPageState extends State<RentalDetailWriterPage> {
 
   final List <bool> isEnabled = <bool>[true, true, true, true, true, true, true, true];
 
@@ -21,11 +21,11 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
   String startDate = "2022-11-05";
   String endDate = "2022-12-31";
   String price = "4,250";
-  int maxPeople = 3;
+  int maxPeople = 2;
   int curPeople = 1;
 
   void disableElevatedButton(int index) {
-     //isEnabled[index] = false;
+    //isEnabled[index] = false;
     setState(() {
       curPeople++;
       isEnabled[index] = false;
@@ -63,7 +63,7 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
         itemCount: userName.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               margin: EdgeInsets.only(top: 5.0),
               decoration: BoxDecoration(
                   border: Border(
@@ -73,71 +73,71 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
                       )
                   )
               ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
 
-                  width: 60,
-                  child: Text("${userName[index]}",
-                      style:TextStyle(
-                          color:Color(0xff333333),
-                          fontSize: 14
-                      )
-                  ),
-                ),
-
-                Container(
-
-                  width: 150,
-                  child: Text("${userPhone[index]}",
-                      style:TextStyle(
-                          color:Color(0xff333333),
-                          fontSize: 14
-                      )
-                  ),
-                ),
-
-                Container(
-
-                  width: 80,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: isEnabled[index] ? Color(mainColor) : Color(0xffB8B8B8),
-                      padding: EdgeInsets.all(8),
-                      textStyle: TextStyle(fontSize: 14),
+                    width: 60,
+                    child: Text("${userName[index]}",
+                        style:TextStyle(
+                            color:Color(0xff333333),
+                            fontSize: 14
+                        )
                     ),
-                    child: Text('수락하기'),
-                    onPressed: isEnabled[index] ? (){
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('수락 여부 확인'),
-                          content: const Text('수락하시겠습니까?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Text('취소'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                disableElevatedButton(index);
-                              },
-                              child: const Text('확인'),
-                            ),
-                          ],
-                        ),
-                      );
-
-                    }
-                    :
-                    null,
                   ),
-                ),
 
-              ],
-            )
+                  Container(
+
+                    width: 150,
+                    child: Text("${userPhone[index]}",
+                        style:TextStyle(
+                            color:Color(0xff333333),
+                            fontSize: 14
+                        )
+                    ),
+                  ),
+
+                  Container(
+
+                    width: 80,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: isEnabled[index] ? Color(mainColor) : Color(0xffB8B8B8),
+                        padding: EdgeInsets.all(8),
+                        textStyle: TextStyle(fontSize: 14),
+                      ),
+                      child: Text('수락하기'),
+                      onPressed: isEnabled[index] ? (){
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('수락 여부 확인'),
+                            content: const Text('수락하시겠습니까?'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('취소'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  disableElevatedButton(index);
+                                },
+                                child: const Text('확인'),
+                              ),
+                            ],
+                          ),
+                        );
+
+                      }
+                          :
+                      null,
+                    ),
+                  ),
+
+                ],
+              )
 
           );
         }
@@ -149,11 +149,11 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("파티모집",
+        title: Text("대여",
             style:TextStyle(
                 color:Color(mainColor),
-              fontWeight: FontWeight.bold,
-              fontSize: 20
+                fontWeight: FontWeight.bold,
+                fontSize: 20
             )
         ),
         automaticallyImplyLeading: true,
@@ -191,60 +191,37 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: Text("넷플릭스 파티원 4명 구해요",
-                                        style:TextStyle(
-                                            fontSize: 16,
-                                            color:Color(0xff333333),
-                                            fontWeight: FontWeight.bold
-                                        )
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: Text("넷플릭스 파티원 4명 구해요",
+                                          style:TextStyle(
+                                              fontSize: 16,
+                                              color:Color(0xff333333),
+                                              fontWeight: FontWeight.bold
+                                          )
+                                      ),
                                     ),
-                                  ),
 
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            "${curPeople}/${maxPeople}",
-                                              style:TextStyle(
-                                                fontSize: 10,
-                                                color:Color(0xff666666),
-                                              )
-                                          ),
-                                        ),
-
-                                        Container(
-                                          child: Icon(
-                                            Icons.circle,
-                                            size: 9,
-                                            color: curPeople == maxPeople? Colors.red : Colors.green,
-                                          ),
-                                        )
-
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.only(top: 5, bottom: 15.0),
-                                child: Text("${writer}",
-                                    style:TextStyle(
-                                      fontSize: 10,
-                                      color:Color(0xff666666),
-                                    )
+                                    Spacer(),
+                                  ],
                                 ),
-                              )
-                            ],
-                          )
+
+                                Container(
+                                  margin: EdgeInsets.only(top: 5, bottom: 15.0),
+                                  child: Text("${writer}",
+                                      style:TextStyle(
+                                        fontSize: 10,
+                                        color:Color(0xff666666),
+                                      )
+                                  ),
+                                )
+                              ],
+                            )
                         ),
 
                         // body Container
@@ -300,8 +277,8 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
                                   Container(
                                       child: Text("${ottType}",
                                           style:TextStyle(
-                                              fontSize: 12,
-                                              color:Color(0xff333333),
+                                            fontSize: 12,
+                                            color:Color(0xff333333),
                                           )
                                       )
                                   ),
@@ -345,9 +322,9 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
                             children: [
                               Text("신청자 목록",
                                   style:TextStyle(
-                                    fontSize: 14,
-                                    color:Color(mainColor),
-                                    fontWeight: FontWeight.bold
+                                      fontSize: 14,
+                                      color:Color(mainColor),
+                                      fontWeight: FontWeight.bold
                                   )
                               ),
 
@@ -356,25 +333,6 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
                           )
                       ),
 
-                      // 신청자 list
-                      // Container(
-                      //   margin: EdgeInsets.only(top: 30, left: 30, right: 30),
-                      //   child: ListView.builder(
-                      //     itemCount: userName.length,
-                      //     itemBuilder: (BuildContext context, int index) {
-                      //       return Container(
-                      //         child: Row(
-                      //           children: [
-                      //             Container(
-                      //               width: 80,
-                      //               child: Text("${userName[index]}"),
-                      //             )
-                      //           ],
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
 
                       Container(
                         //margin: EdgeInsets.only(top: 0.0),

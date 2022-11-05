@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home_body/Rental/rental_detail_nonwriterview.dart';
+import 'package:home_body/Rental/rental_detail_writerview.dart';
+import 'package:home_body/Rental/rental_writeview.dart';
 import 'package:home_body/color.dart';
 import 'package:home_body/dummy/rental_dummydata.dart';
 
@@ -14,6 +17,8 @@ class _RentalMainPageState extends State<RentalMainPage> {
   //data
   String currentLocation="total";
   late RentalDummydata rentaldummydata;
+
+  int isChecked = 0;
 
   final Map<String,String> locationTypeToString2={
     "total": "전체",
@@ -106,120 +111,113 @@ class _RentalMainPageState extends State<RentalMainPage> {
   _makeDataList(List<Map<String,String>> datas){
     return ListView.separated(
       itemBuilder: (BuildContext _context, int index){
-        return Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top:10),
-                      child: Text(
-                        datas[index]["title"]!,
-                        textAlign: TextAlign.left,
-                        style:TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+        return GestureDetector(
+          onTap: (){
+            if(isChecked == 1){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RentalDetailNonWriterPage()),
+              );
+            }
+            else{
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RentalDetailWriterPage()),
+              );
+            }
+          },
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:10),
+                        child: Text(
+                          datas[index]["title"]!,
+                          textAlign: TextAlign.left,
+                          style:TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      child: Row(
-                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            child: Text(
-                              "${datas[index]["curPeople"]!}/${datas[index]["maxPeople"]!}",
-                              style:TextStyle(
-                                fontSize: 10,
-                                color:Color(0xff666666),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Icon(
-                              Icons.circle,
-                              size: 9,
-                              color: datas[index]["curPeople"]! == datas[index]["maxPeople"]!? Colors.red : Colors.green,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Text(
-                  datas[index]["writer"]!,
-                  textAlign: TextAlign.left,
-                  style:TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                    color: Color(graytextcolor),
+                    ],
                   ),
                 ),
-              ),
-              Container(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right:20),
-                        child: Text(
-                          "OTT",
-                          textAlign: TextAlign.left,
-                          style:TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(mainColor),
+                Container(
+                  child: Text(
+                    datas[index]["writer"]!,
+                    textAlign: TextAlign.left,
+                    style:TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Color(graytextcolor),
+                    ),
+                  ),
+                ),
+                Container(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right:20),
+                          child: Text(
+                            "OTT",
+                            textAlign: TextAlign.left,
+                            style:TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Color(mainColor),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(datas[index]["ott"]!),
-                    ],
-                  )
-              ),
-              Container(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right:15),
-                        child: Text(
-                          "대여기간",
-                          textAlign: TextAlign.left,
-                          style:TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(mainColor),
+                        Text(datas[index]["ott"]!),
+                      ],
+                    )
+                ),
+                Container(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right:15),
+                          child: Text(
+                            "대여기간",
+                            textAlign: TextAlign.left,
+                            style:TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Color(mainColor),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(datas[index]["period"]!),
-                    ],
-                  )
-              ),
-              Container(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom:10,right:15),
-                        child: Text(
-                          "예상가격",
-                          textAlign: TextAlign.left,
-                          style:TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(mainColor),
+                        Text(datas[index]["period"]!),
+                      ],
+                    )
+                ),
+                Container(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom:10,right:15),
+                          child: Text(
+                            "예상가격",
+                            textAlign: TextAlign.left,
+                            style:TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Color(mainColor),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(datas[index]["price"]!),
-                    ],
-                  )
-              ),
-            ],
+                        Text(datas[index]["price"]!),
+                      ],
+                    )
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -233,7 +231,7 @@ class _RentalMainPageState extends State<RentalMainPage> {
   Widget _bodyWidget() {
     return Container(
       padding: const EdgeInsets.only(left: 10,top: 30,right:10),
-      height: MediaQuery.of(context).size.height *0.75,
+      height: MediaQuery.of(context).size.height *0.7,
       width: MediaQuery.of(context).size.width,
 
       child: FutureBuilder(
@@ -267,7 +265,12 @@ class _RentalMainPageState extends State<RentalMainPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RentalWritePage()),
+          );
+        },
         elevation: 0,
         backgroundColor: Color(mainColor),
         child: Icon(Icons.add,color: Colors.white,),
