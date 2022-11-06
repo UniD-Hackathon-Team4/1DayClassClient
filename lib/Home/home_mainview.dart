@@ -49,10 +49,10 @@ class _HomeMainPageState extends State<HomeMainPage> {
         if (datas[index]["ischecked"] == "1"){
           return GestureDetector(
             onTap: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PartyDetailWriterPage()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => PartyDetailWriterPage()),
+              // );
             },
             child: Container(
               child: Column(
