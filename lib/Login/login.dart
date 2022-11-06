@@ -2,16 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:home_body/Login/signup.dart';
 import 'package:home_body/color.dart';
 
+import '../server.dart';
 import '../tabbar.dart';
 
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// import 'package:zerozone/server.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 var authToken = '';
-var refreshToken = '';
-var name = "";
-var email = "";
+
+class PartyList {
+  final int partyId;
+  final String authorName;
+  final String title;
+  final String startDate;
+  final String endDate;
+  final int numOfPeople;
+  final int joinedPeopleCount;
+  final String type;
+  final int cost;
+  final String ott;
+  final bool isOwner;
+
+  PartyList(this.partyId, this.authorName, this.title, this.startDate, this.endDate, this.numOfPeople, this.joinedPeopleCount, this.type, this.cost, this.ott, this.isOwner);
+}
+
+class RentalList {
+  final int partyId;
+  final String authorName;
+  final String title;
+  final String startDate;
+  final String endDate;
+  final int cost;
+  final String ott;
+  final String type;
+  final bool isOwner;
+
+  RentalList(this.partyId, this.authorName, this.title, this.startDate, this.endDate, this.type, this.cost, this.ott, this.isOwner);
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -32,15 +60,8 @@ class _LoginPageState extends State<LoginPage> {
       form.save();
       print('Form is valid Email: $_email, password: $_password');
 
-      // 임시 이동
-      Navigator.pop(context);
-      Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => tabBarMainPage()),
-      );
-
       // 로그인
-      //signIn(_email, _password);
+      signIn(_email, _password);
     } else {
       print('Form is invalid Email: $_email, password: $_password');
     }
@@ -175,68 +196,55 @@ class _LoginPageState extends State<LoginPage> {
             )));
   }
 
-  // // 로그인 기능 서버 연결
-  // void signIn(String email, pass) async {
-  //   var url = Uri.http('${serverHttp}:8080', '/user/login');
-  //
-  //   final data = jsonEncode({'email': email, 'password': pass});
-  //
-  //   var response = await http.post(url, body: data, headers: {
-  //     'Accept': 'application/json',
-  //     "content-type": "application/json"
-  //   });
-  //
-  //   // print(url);
-  //   print(response.statusCode);
-  //
-  //   if (response.statusCode == 200) {
-  //     print('Response status: ${response.statusCode}');
-  //     print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
-  //
-  //     var body = jsonDecode(response.body);
-  //
-  //     dynamic data = body["data"];
-  //
-  //
-  //
-  //     ///!! 일단 result 값으로 지정해 놓음. 후에 서버와 논의하여 data값 설정하기.
-  //     //print("token: " + token.toString());
-  //
-  //     if (body["result"] == "success") {
-  //       String token = data["accessToken"];
-  //       refreshToken = data["refreshToken"];
-  //       print("로그인에 성공하셨습니다.");
-  //       authToken = token;
-  //
-  //       userInfo();
-  //       Navigator.pop(context);
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => tabBarMainPage()),
-  //       );
-  //     }
-  //     else{
-  //       showDialog<String>(
-  //         context: context,
-  //         builder: (BuildContext context) => AlertDialog(
-  //           title: const Text(
-  //             '로그인 실패',
-  //             style: TextStyle(fontWeight: FontWeight.bold),
-  //           ),
-  //           content: const Text('로그인에 실패하였습니다.'),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //               child: const Text('확인'),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     }
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
+  // 로그인 기능 서버 연결
+  void signIn(String email, String pass) async {
+    var url = Uri.parse('${serverHttp}/auth/login');
+
+    final data = jsonEncode({'email': email, 'password': pass});
+
+    var response = await http.post(url, body: data, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json"
+    });
+
+    // print(url);
+    print(response.statusCode);
+
+    if (response.statusCode == 201) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(response.body);
+
+      String token = body["accessToken"];
+      print("로그인에 성공하셨습니다.");
+      authToken = token;
+
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => tabBarMainPage()),
+      );
+
+    } else{
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text(
+            '로그인 실패',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: const Text('로그인에 실패하였습니다.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 }
