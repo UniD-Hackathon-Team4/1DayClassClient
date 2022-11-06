@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_body/Home/home_mainview.dart';
+import 'package:home_body/color.dart';
 
 import 'Party/party_mainview.dart';
 import 'Rental/rental_mainview.dart';
@@ -66,24 +67,24 @@ class _BottomNavigatorState extends State<BottomNavigator> with SingleTickerProv
             controller: _tabController,
             tabs: <Widget>[
               Tab(
-                icon: _seletedIndex == 0 ? Icon(Icons.face, color: Color(0xff4478FF)) : Icon(Icons.face_outlined, color: Color(0xff4478FF)),
+                icon: _seletedIndex == 0 ? Icon(Icons.home_outlined, color: Color(mainColor)) : Icon(Icons.home_outlined, color: Color(graytextcolor)),
                 child: Text(
                   '홈',
-                  style: TextStyle(color: Color(0xff4478FF), fontSize: 11),
+                  style: TextStyle(color: Color(graytextcolor), fontSize: 11),
                 ),
               ),
               Tab(
-                icon: _seletedIndex == 1 ? Icon(Icons.add_box_rounded, color: Color(0xff4478FF)) : Icon(Icons.add_box_outlined, color: Color(0xff4478FF)),
+                icon: _seletedIndex == 1 ? Icon(Icons.search_outlined, color: Color(mainColor)) : Icon(Icons.search_outlined, color: Color(graytextcolor)),
                 child: Text(
                   '파티 모집',
-                  style: TextStyle(color: Color(0xff4478FF), fontSize: 11),
+                  style: TextStyle(color: Color(graytextcolor), fontSize: 11),
                 ),
               ),
               Tab(
-                icon: _seletedIndex == 2? Icon(Icons.home_filled, color: Color(0xff4478FF),) : Icon(Icons.home_outlined, color: Color(0xff4478FF)),
+                icon: _seletedIndex == 2? Icon(Icons.share, color: Color(mainColor)) : Icon(Icons.share, color: Color(graytextcolor)),
                 child: Text(
                   '대여하기',
-                  style: TextStyle(color: Color(0xff4478FF), fontSize: 11),
+                  style: TextStyle(color: Color(graytextcolor), fontSize: 11),
                 ),
               ),
             ],
