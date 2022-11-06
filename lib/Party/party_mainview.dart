@@ -3,6 +3,7 @@ import 'package:home_body/color.dart';
 
 import '../dummy/party_dummydata.dart';
 
+
 class PartyMainPage extends StatefulWidget {
   const PartyMainPage({Key? key}) : super(key: key);
 
