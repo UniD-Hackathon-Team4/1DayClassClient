@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_body/Home/home_mainview.dart';
 import 'package:home_body/Rental/rental_detail_nonwriterview.dart';
 import 'package:home_body/Rental/rental_detail_writerview.dart';
 import 'package:home_body/Rental/rental_writeview.dart';
@@ -42,7 +43,19 @@ class _RentalMainPageState extends State<RentalMainPage> {
     return AppBar(
       title: Text("대여",style:TextStyle(fontWeight: FontWeight.bold,color:Color(mainColor))),
       backgroundColor: Colors.white,
-      elevation: 0.0, //appbar 그림자 제거
+      elevation: 0.0,
+      automaticallyImplyLeading: true,
+      leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xff333333),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeMainPage()),
+            );
+          }),
     );
   }
 
