@@ -44,18 +44,6 @@ class _RentalMainPageState extends State<RentalMainPage> {
       title: Text("대여",style:TextStyle(fontWeight: FontWeight.bold,color:Color(mainColor))),
       backgroundColor: Colors.white,
       elevation: 0.0,
-      automaticallyImplyLeading: true,
-      leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xff333333),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeMainPage()),
-            );
-          }),
     );
   }
 

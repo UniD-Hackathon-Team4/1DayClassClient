@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../Login/login.dart';
 import '../color.dart';
+
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../server.dart';
+
 
 class PartyWritePage extends StatefulWidget {
   const PartyWritePage({Key? key}) : super(key: key);
@@ -13,7 +21,7 @@ class PartyWritePage extends StatefulWidget {
 
 class _PartyWritePageState extends State<PartyWritePage> {
   final _OTTList = ['넷플릭스', '왓챠', '디즈니플러스', '웨이브','애플티비','티빙'];
-  final _NumList = ['1', '2', '3', '4'];
+  final _NumList = ["1", "2", "3", "4"];
   final double _Width = 236;
   final _formKey = new GlobalKey<FormState>();
   late String _title;
@@ -24,9 +32,58 @@ class _PartyWritePageState extends State<PartyWritePage> {
   late String _bills;
 
   String? _selectedOTT = '넷플릭스';
-  String? _selectedNum = '4';
+  String? _selectedNum = "4";
   DateTimeRange _dateTime =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
+
+  void enrollParty() async {
+
+    var url = Uri.parse('${serverHttp}/party/gather');
+    _startDate = _dateTime.start.year.toString() +
+        "-" +
+        _dateTime.start.month.toString() +
+        "-" +
+        _dateTime.start.day.toString();
+    _endDate = _dateTime.end.year.toString() +
+        "-" +
+        _dateTime.end.month.toString() +
+        "-" +
+        _dateTime.end.day.toString();
+
+    final data = jsonEncode(
+        {
+          'ott': _selectedOTT,
+          'title': _title,
+          'startDate': _startDate,
+          'endDate':_endDate,
+          'numOfPeople':int.parse(_selectedNum!),
+          'cost': int.parse(_bills),
+        }
+    );
+
+    var response = await http.post(url, body: data, headers: {
+      'Accept': 'application/json',
+      "content-type": "application/json",
+      "Authorization": "Bearer ${authToken}"
+    });
+
+    print(response);
+    print('Response status: ${response.statusCode}');
+
+    if (response.statusCode == 201) {
+      print('Response body: ${jsonDecode(utf8.decode(response.bodyBytes))}');
+
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
+
+      print("data: ${body}", );
+
+      Navigator.pop(context);
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+  }
 
   void validateAndPost() {
     final form = _formKey.currentState;
@@ -35,19 +92,18 @@ class _PartyWritePageState extends State<PartyWritePage> {
       _number = _selectedNum!;
       _OTT = _selectedOTT!;
       _startDate = _dateTime.start.year.toString() +
-          "." +
+          "-" +
           _dateTime.start.month.toString() +
-          "." +
+          "-" +
           _dateTime.start.day.toString();
       _endDate = _dateTime.end.year.toString() +
-          "." +
+          "-" +
           _dateTime.end.month.toString() +
-          "." +
+          "-" +
           _dateTime.end.day.toString();
       print('Form is valid Title: $_title, bills: $_bills');
 
-      // 임시 이동
-      Navigator.pop(context);
+      //enrollParty();
     } else {
       print('Form is invalid Title: $_title, bills: $_bills');
     }
@@ -91,7 +147,7 @@ class _PartyWritePageState extends State<PartyWritePage> {
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.all(30),
-            child: new Form(
+            child: Form(
                 key: _formKey,
                 child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -204,7 +260,7 @@ class _PartyWritePageState extends State<PartyWritePage> {
                                         (value) {
                                           return DropdownMenuItem(
                                             value: value,
-                                            child: Text(value),
+                                            child: Text("${value}"),
                                           );
                                         },
                                       ).toList(),
@@ -302,10 +358,13 @@ class _PartyWritePageState extends State<PartyWritePage> {
                                     height: 36,
                                     margin: EdgeInsets.only(top: 22),
                                     child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly], // Only num
                                       decoration: new InputDecoration(
                                         border: InputBorder.none,
                                       ),
-                                      onSaved: (value) => _bills = value!,
+                                      onSaved: (value) => _bills =  value!,
                                     ))),
                           ])),
                       Spacer(),
