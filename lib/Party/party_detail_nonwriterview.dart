@@ -1,62 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:home_body/Party/party_mainview.dart';
 
 import '../color.dart';
 
 class PartyDetailNonWriterPage extends StatefulWidget {
-  const PartyDetailNonWriterPage({Key? key}) : super(key: key);
+
+  final int partyId;
+
+  const PartyDetailNonWriterPage({Key? key, required this.partyId}) : super(key: key);
 
   @override
   State<PartyDetailNonWriterPage> createState() => _PartyDetailNonWriterPageState();
 }
 
 class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
-
-  final List <bool> isEnabled = <bool>[true, true, true, true, true, true, true, true];
-
-  final List<String> userName = <String>["손님1", "손님2", "손님3"];
-  final List<String> userPhone = <String>["010-9999-1234", "010-9999-1234", "010-9999-1234"];
-
-  String writer = "글쓴이";
-  String ottType = "넷플릭스";
-  String startDate = "2022-11-05";
-  String endDate = "2022-12-31";
-  String price = "4,250";
-  int maxPeople = 3;
-  int curPeople = 1;
-
-  void disableElevatedButton(int index) {
-    //isEnabled[index] = false;
-    setState(() {
-      curPeople++;
-      isEnabled[index] = false;
-    });
-
-    if(curPeople == maxPeople){
-      showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('모집 완료'),
-          content: const Text('모집이 완료되었습니다.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              child: const Text('확인'),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  // func(int index){
-  //   print("clicked");
-  //   disableElevatedButton(index);
-  // }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +69,7 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      child: Text("넷플릭스 파티원 4명 구해요",
+                                      child: Text("${title}",
                                           style:TextStyle(
                                               fontSize: 16,
                                               color:Color(0xff333333),
@@ -222,7 +179,7 @@ class _PartyDetailNonWriterPageState extends State<PartyDetailNonWriterPage> {
 
                                   Container(
                                       margin: EdgeInsets.only(top: 10.0),
-                                      child: Text("${startDate} ~ ${endDate}",
+                                      child: Text("${startDate.substring(0,10)} ~ ${endDate.substring(0,10)}",
                                           style:TextStyle(
                                             fontSize: 12,
                                             color:Color(0xff333333),

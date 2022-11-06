@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:home_body/Party/party_mainview.dart';
 
+import '../Login/login.dart';
 import '../color.dart';
+import '../server.dart';
+
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class PartyDetailWriterPage extends StatefulWidget {
-  const PartyDetailWriterPage({Key? key}) : super(key: key);
+  final int partyId;
+
+  const PartyDetailWriterPage({Key? key, required this.partyId}) : super(key: key);
 
   @override
   State<PartyDetailWriterPage> createState() => _PartyDetailWriterPageState();
@@ -11,18 +20,11 @@ class PartyDetailWriterPage extends StatefulWidget {
 
 class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
 
-  final List <bool> isEnabled = <bool>[true, true, true, true, true, true, true, true];
-
-  final List<String> userName = <String>["손님1", "손님2", "손님3"];
-  final List<String> userPhone = <String>["010-9999-1234", "010-9999-1234", "010-9999-1234"];
-
-  String writer = "글쓴이";
-  String ottType = "넷플릭스";
-  String startDate = "2022-11-05";
-  String endDate = "2022-12-31";
-  String price = "4,250";
-  int maxPeople = 3;
-  int curPeople = 1;
+  @override
+  void initState(){
+    super.initState();
+    print(widget.partyId);
+  }
 
   void disableElevatedButton(int index) {
      //isEnabled[index] = false;
@@ -198,7 +200,7 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    child: Text("넷플릭스 파티원 4명 구해요",
+                                    child: Text("${title}",
                                         style:TextStyle(
                                             fontSize: 16,
                                             color:Color(0xff333333),
@@ -308,7 +310,7 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
 
                                   Container(
                                       margin: EdgeInsets.only(top: 10.0),
-                                      child: Text("${startDate} ~ ${endDate}",
+                                      child: Text("${startDate.substring(0,10)} ~ ${endDate.substring(0,10)}",
                                           style:TextStyle(
                                             fontSize: 12,
                                             color:Color(0xff333333),
@@ -355,26 +357,6 @@ class _PartyDetailWriterPageState extends State<PartyDetailWriterPage> {
                             ],
                           )
                       ),
-
-                      // 신청자 list
-                      // Container(
-                      //   margin: EdgeInsets.only(top: 30, left: 30, right: 30),
-                      //   child: ListView.builder(
-                      //     itemCount: userName.length,
-                      //     itemBuilder: (BuildContext context, int index) {
-                      //       return Container(
-                      //         child: Row(
-                      //           children: [
-                      //             Container(
-                      //               width: 80,
-                      //               child: Text("${userName[index]}"),
-                      //             )
-                      //           ],
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
 
                       Container(
                         //margin: EdgeInsets.only(top: 0.0),

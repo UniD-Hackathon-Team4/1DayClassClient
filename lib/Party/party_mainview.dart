@@ -16,6 +16,7 @@ import '../server.dart';
 
 
 class PartyMainPage extends StatefulWidget {
+
   const PartyMainPage({Key? key}) : super(key: key);
 
   @override
@@ -24,54 +25,111 @@ class PartyMainPage extends StatefulWidget {
 
 final partyList = new List<PartyList>.empty(growable: true);
 
-fetchPost() async {
-  var url = Uri.parse('${serverHttp}/party/gather');
+final isEnabled = new List <bool>.empty(growable: true);
 
-  print("authToken: ${authToken}");
-  var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+final userName = new List <String>.empty(growable: true);
+final userPhone = new List <String>.empty(growable: true);
 
-  print(url);
+final userId = new List <int>.empty(growable: true);
 
-  print("status: ${response.statusCode}");
+String writer = "글쓴이";
+String title = "넷플릭스 함께 봐요";
+String ottType = "넷플릭스";
+String startDate = "2022-11-05";
+String endDate = "2022-12-31";
+int price = 4250;
+int maxPeople = 3;
+int curPeople = 1;
 
-  if (response.statusCode == 200) {
-    // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
+fetchPost(String where) async {
 
-    var body = jsonDecode(response.body);
+  partyList.clear();
 
-    dynamic data = body["parties"];
+  if(where == "total"){
+    var url = Uri.parse('${serverHttp}/party/gather');
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
 
-    print(data);
 
-    if(data.length != 0){
-      for(dynamic i in data){
-        int partyId = i['partyId'];
-        String authorName = i['authorName'];
-        String title = i['title'];
-        String startDate = i['startDate'];
-        String endDate = i['endDate'];
-        int numOfPeople = i['numOfPeople'];
-        int joinedPeopleCount = i['joinedPeopleCount'];
-        String type = i['type'];
-        int cost = i['cost'];
-        String ott = i['ott'];
-        bool isOwner = i['isOwner'];
 
-        partyList.add(PartyList(partyId, authorName, title, startDate, endDate, numOfPeople, joinedPeopleCount, type, cost, ott, isOwner));
+    if (response.statusCode == 200) {
+      // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
+
+      var body = jsonDecode(response.body);
+
+      dynamic data = body["parties"];
+
+      if(data.length != 0){
+        for(dynamic i in data){
+          int partyId = i['partyId'];
+          String authorName = i['authorName'];
+          String title = i['title'];
+          String startDate = i['startDate'];
+          String endDate = i['endDate'];
+          int numOfPeople = i['numOfPeople'];
+          int joinedPeopleCount = i['joinedPeopleCount'];
+          String type = i['type'];
+          int cost = i['cost'];
+          String ott = i['ott'];
+          bool isOwner = i['isOwner'];
+
+          partyList.add(PartyList(partyId, authorName, title, startDate, endDate, numOfPeople, joinedPeopleCount, type, cost, ott, isOwner));
+        }
+
       }
 
-      print(partyList[0].partyId);
+    } else {
+      // 만약 요청이 실패하면, 에러를 던집니다.
+      throw Exception('Failed to load post');
+    }
+  }
+  else{
+
+    Map<String, String> _queryParameters = <String, String>{
+      'ott': where.toString()
+    };
+
+    var url = Uri.parse('${serverHttp}/party/gather?ott=${where}');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+
+    if (response.statusCode == 200) {
+      // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
+
+      var body = jsonDecode(response.body);
+
+      dynamic data = body["parties"];
+
+      if(data.length != 0){
+        for(dynamic i in data){
+          int partyId = i['partyId'];
+          String authorName = i['authorName'];
+          String title = i['title'];
+          String startDate = i['startDate'];
+          String endDate = i['endDate'];
+          int numOfPeople = i['numOfPeople'];
+          int joinedPeopleCount = i['joinedPeopleCount'];
+          String type = i['type'];
+          int cost = i['cost'];
+          String ott = i['ott'];
+          bool isOwner = i['isOwner'];
+
+          partyList.add(PartyList(partyId, authorName, title, startDate, endDate, numOfPeople, joinedPeopleCount, type, cost, ott, isOwner));
+        }
+
+      }
+
+    } else {
+      // 만약 요청이 실패하면, 에러를 던집니다.
+      throw Exception('Failed to load post');
     }
 
 
 
-
-
-    print("here");
-  } else {
-    // 만약 요청이 실패하면, 에러를 던집니다.
-    throw Exception('Failed to load post');
   }
+
+
+
 }
 
 class Post {
@@ -116,13 +174,122 @@ class _PartyMainPageState extends State<PartyMainPage> {
 
   final Map<String,String> locationTypeToString={
     "total": "전체",
-    "netflix":"넷플릭스",
-    "watcha":"왓챠",
-    "disneyplus":"디즈니플러스",
-    "wave":"웨이브",
-    "appletv":"애플티비",
-    "tving":"티빙",
+    "NETFLIX":"넷플릭스",
+    "WATCHA":"왓챠",
+    "DISNEYPLUS":"디즈니플러스",
+    "WAVVE":"웨이브",
+    "APPLETV":"애플티비",
+    "TVING":"티빙",
+    "TVING":"티빙",
   };
+
+  detailViewInfo(int partyId, bool isOwner) async {
+
+    isEnabled.clear();
+    userName.clear();
+    userPhone.clear();
+    userId.clear();
+
+    var url = Uri.parse('${serverHttp}/party/gather/${partyId.toString()}');
+    print(url);
+    print("authToken: ${authToken}");
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+    print(url);
+
+    print("status: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      // 만약 서버로의 요청이 성공하면, JSON을 파싱합니다.
+
+      dynamic i = jsonDecode(response.body);
+
+      print(i);
+
+      int partyId = i['partyId'];
+      writer = i['authorName'];
+      title = i['title'];
+      startDate = i['startDate'];
+      endDate = i['endDate'];
+      maxPeople = i['numOfPeople'];
+      curPeople = i['joinedPeopleCount'];
+      //ottType = i['type'];
+      price = i['cost'];
+      ottType = i['ott'];
+
+
+      if (isOwner == true){
+        dynamic data = i["participants"];
+
+
+        for(dynamic x in data){
+          int id = x['id'];
+          String name = x['name'];
+          bool selected = x['isSelected'];
+          String contact = x['contact'];
+
+          isEnabled.add(selected);
+          userName.add(name);
+          userPhone.add(contact);
+          userId.add(id);
+
+        }
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PartyDetailWriterPage(partyId: partyId,)),
+        );
+      }
+      else{
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PartyDetailNonWriterPage(partyId: partyId,)),
+        );
+      }
+
+
+
+      print("here");
+    } else {
+      // 만약 요청이 실패하면, 에러를 던집니다.
+      throw Exception('Failed to load post');
+    }
+
+
+  }
+
+  void DetailViewInfo(int partyId) async {
+
+    var url = Uri.parse('${serverHttp}/party/gather/${partyId}');
+
+    var response = await http.get(url, headers: {'Accept': 'application/json', "content-type": "application/json", "Authorization": "Bearer ${authToken}" });
+
+
+    if (response.statusCode == 200) {
+
+      dynamic i = jsonDecode(utf8.decode(response.bodyBytes));
+
+      // dynamic data = body["data"];
+
+      int partyId = i['partyId'];
+      String authorName = i['authorName'];
+      String title = i['title'];
+      String startDate = i['startDate'];
+      String endDate = i['endDate'];
+      int numOfPeople = i['numOfPeople'];
+      int joinedPeopleCount = i['joinedPeopleCount'];
+      String type = i['type'];
+      int cost = i['cost'];
+      String ott = i['ott'];
+      bool isOwner = i['isOwner'];
+
+
+      // urlInfo(letter, letterId);
+
+    }
+    else {
+      print('error : ${response.reasonPhrase}');
+    }
+
+  }
 
 
   //data 초기화
@@ -130,7 +297,8 @@ class _PartyMainPageState extends State<PartyMainPage> {
   void initState(){
     super.initState();
     partydummydata=PartyDummydata();
-    fetchPost();
+    partyList.clear();
+    fetchPost("total");
   }
 
   //상단 appbar 위젯
@@ -160,20 +328,27 @@ class _PartyMainPageState extends State<PartyMainPage> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                 1),
               onSelected: (String where){
-                print(where);
+                print("this is: ${where}");
+
+
+
+                // query param
                 setState(() {
                   currentLocation=where;
+                  fetchPost(where);
                 });
+
+
               },
               itemBuilder: (BuildContext context){
                 return [
                   PopupMenuItem(value: "total", child:Text("전체")),
-                  PopupMenuItem(value: "netflix", child:Text("넷플릭스")),
-                  PopupMenuItem(value: "watcha", child:Text("왓챠")),
-                  PopupMenuItem(value: "disneyplus", child:Text("디즈니플러스")),
-                  PopupMenuItem(value: "wave", child:Text("웨이브")),
-                  PopupMenuItem(value: "appletv", child:Text("애플티비")),
-                  PopupMenuItem(value: "tving", child:Text("티빙")),
+                  PopupMenuItem(value: "NETFLIX", child:Text("넷플릭스")),
+                  PopupMenuItem(value: "WATCHA", child:Text("왓챠")),
+                  PopupMenuItem(value: "DISNEYPLUS", child:Text("디즈니플러스")),
+                  PopupMenuItem(value: "WAVVE", child:Text("웨이브")),
+                  PopupMenuItem(value: "APPLETV", child:Text("애플티비")),
+                  PopupMenuItem(value: "TVING", child:Text("티빙")),
                 ];
               },
               child: Container(
@@ -204,22 +379,24 @@ class _PartyMainPageState extends State<PartyMainPage> {
     return partydummydata.loadContentsFromLocation(currentLocation);
   }
 
-  _makeDataList(List<Map<String,String>> datas){
+  _makeDataList(List<PartyList> partyList){
     return ListView.separated(
+      itemCount: partyList.length,
       itemBuilder: (BuildContext _context, int index){
         return GestureDetector(
           onTap: (){
-            if(isChecked == 1){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PartyDetailNonWriterPage()),
-              );
+            if(partyList[index].isOwner == false){
+              detailViewInfo(partyList[index].partyId, partyList[index].isOwner);
+              // Navigator.push(context,
+              //   MaterialPageRoute(builder: (context) => PartyDetailNonWriterPage(partyId: partyList[index].partyId,)),
+              // );
             }
             else{
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PartyDetailWriterPage()),
-              );
+              detailViewInfo(partyList[index].partyId, partyList[index].isOwner);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => PartyDetailWriterPage(partyId: partyList[index].partyId,)),
+              // );
             }
 
           },
@@ -234,7 +411,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
                       Padding(
                         padding: const EdgeInsets.only(top:10),
                         child: Text(
-                          datas[index]["title"]!,
+                          partyList[index].title!,
                           textAlign: TextAlign.left,
                           style:TextStyle(
                             fontSize: 15,
@@ -248,7 +425,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
                           children: [
                             Container(
                               child: Text(
-                                "${datas[index]["curPeople"]!}/${datas[index]["maxPeople"]!}",
+                                "${partyList[index].joinedPeopleCount!}/${partyList[index].numOfPeople!}",
                                 style:TextStyle(
                                   fontSize: 10,
                                   color:Color(0xff666666),
@@ -259,7 +436,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
                               child: Icon(
                                 Icons.circle,
                                 size: 9,
-                                color: datas[index]["curPeople"]! == datas[index]["maxPeople"]!? Colors.red : Colors.green,
+                                color: partyList[index].joinedPeopleCount! == partyList[index].numOfPeople!? Colors.red : Colors.green,
                               ),
                             ),
                           ],
@@ -270,7 +447,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
                 ),
                 Container(
                   child: Text(
-                    datas[index]["writer"]!,
+                    partyList[index].authorName!,
                     textAlign: TextAlign.left,
                     style:TextStyle(
                       fontSize: 10,
@@ -294,7 +471,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
                             ),
                           ),
                         ),
-                        Text(datas[index]["ott"]!),
+                        Text(partyList[index].ott!),
                       ],
                     )
                 ),
@@ -313,7 +490,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
                             ),
                           ),
                         ),
-                        Text(datas[index]["period"]!),
+                        Text('${partyList[index].startDate.substring(0,10)} ~ ${partyList[index].endDate.substring(0,10)}'!),
                       ],
                     )
                 ),
@@ -332,7 +509,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
                             ),
                           ),
                         ),
-                        Text(datas[index]["price"]!),
+                        Text('${partyList[index].cost}'!),
                       ],
                     )
                 ),
@@ -341,7 +518,7 @@ class _PartyMainPageState extends State<PartyMainPage> {
           )
         );
       },
-      itemCount: 10,
+      //itemCount: 10,
       separatorBuilder: (BuildContext _context, int index){
         return Container(height: 1, color: Color(mainColor));
       },
@@ -357,16 +534,19 @@ class _PartyMainPageState extends State<PartyMainPage> {
       child: FutureBuilder(
         future: _loadContents(),
           builder: (BuildContext context,dynamic snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text("데이터 오류"));
-            }
-            if (snapshot.hasData) {
-              return _makeDataList(snapshot.data);
-            }
-            return Center(child: Text("해당 지역에 데이터 없습니다."));
+            // if (snapshot.connectionState != ConnectionState.done) {
+            //   return Center(child: CircularProgressIndicator());
+            // }
+            // if (snapshot.hasError) {
+            //   return Center(child: Text("데이터 오류"));
+            // }
+            // if (snapshot.hasData) {
+            //   print("length: ${partyList.length}");
+            //   return _makeDataList(partyList);
+            // }
+            // return Center(child: Text("해당 지역에 데이터 없습니다."));
+            print("here4");
+            return _makeDataList(partyList);
           }
       ),
     );
