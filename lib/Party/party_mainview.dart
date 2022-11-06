@@ -7,12 +7,14 @@ import 'package:home_body/Party/party_writeview.dart';
 import 'package:home_body/color.dart';
 
 import '../Login/login.dart';
+import '../Home/home_mainview.dart';
 import '../dummy/party_dummydata.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../server.dart';
+
 
 
 class PartyMainPage extends StatefulWidget {
@@ -307,6 +309,18 @@ class _PartyMainPageState extends State<PartyMainPage> {
       title: Text("파티모집",style:TextStyle(fontWeight: FontWeight.bold,color:Color(mainColor))),
       backgroundColor: Colors.white,
       elevation: 0.0, //appbar 그림자 제거
+      automaticallyImplyLeading: true,
+      leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xff333333),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeMainPage()),
+            );
+          }),
     );
   }
 
